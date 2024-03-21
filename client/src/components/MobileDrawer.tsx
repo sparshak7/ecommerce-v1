@@ -1,4 +1,4 @@
-import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
+import { ExternalLinkIcon, HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Drawer,
   DrawerBody,
@@ -9,6 +9,11 @@ import {
   IconButton,
   Text,
   Button,
+  Menu,
+  MenuButton,
+  Avatar,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
@@ -18,6 +23,7 @@ import { MdAccountCircle } from "react-icons/md";
 const MobileDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef(null);
+  const temp = true;
   return (
     <>
       <IconButton
@@ -44,6 +50,7 @@ const MobileDrawer = () => {
             justifyContent="center"
             alignItems="center"
             color="#333"
+            fontFamily="DM Sans"
           >
             <Link to="/">
               <Button
@@ -87,20 +94,64 @@ const MobileDrawer = () => {
                 </Text>
               </Button>
             </Link>
-            <Link to="/">
-              <Button
-                leftIcon={<MdAccountCircle style={{ fontSize: "18px" }} />}
-                bg="#fff"
-                color="#333"
-                onClick={() => {
-                  onClose();
-                }}
-              >
-                <Text fontSize="lg" ml="2">
-                  Your Account
-                </Text>
-              </Button>
-            </Link>
+            {!temp ? (
+              <Link to="/login">
+                <Button
+                  leftIcon={<ExternalLinkIcon />}
+                  // bg="#fff"
+                  // color="#333"
+                  colorScheme="red"
+                  onClick={() => {
+                    onClose();
+                  }}
+                >
+                  <Text fontSize="lg" ml="2">
+                    Get Started
+                  </Text>
+                </Button>
+              </Link>
+            ) : (
+              <Menu isLazy>
+                <MenuButton>
+                  <Button
+                    leftIcon={<MdAccountCircle style={{ fontSize: "18px" }} />}
+                    bg="#fff"
+                    color="#333"
+                  >
+                    Profile
+                  </Button>
+                </MenuButton>
+                <MenuList fontFamily="DM Sans">
+                  <MenuItem>
+                    <Link
+                      to="/orders/:id"
+                      onClick={() => {
+                        onClose();
+                      }}
+                    >
+                      <Text>Your Orders</Text>
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link
+                      to="/account/:id"
+                      onClick={() => {
+                        onClose();
+                      }}
+                    >
+                      <Text>Your Account</Text>
+                    </Link>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      onClose();
+                    }}
+                  >
+                    <Text>Logout</Text>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            )}
           </DrawerBody>
         </DrawerContent>
       </Drawer>
